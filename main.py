@@ -216,7 +216,7 @@ def uploadlive():
             known_faces.append(face_encoding)
 
         # Open the video file using OpenCV
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(-1)
         while cap.isOpened():
             ret, frame = cap.read()
             print('accesing')
