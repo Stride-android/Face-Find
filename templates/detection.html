@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+</head>
+<style>
+    body {
+        height: 100vh;
+        background: #000;
+
+    }
+
+    .slider-thumb::before {
+        position: absolute;
+        content: "";
+        margin-left: -500px;
+        top: 25%;
+        width: 2650px;
+        height: 450px;
+        background: linear-gradient(90deg, #9b1e7a, #672298);
+        border-radius: 62% 47% 82% 35% / 45% 45% 80% 66%;
+        will-change: border-radius, transform, opacity;
+        animation: sliderShape 3s linear infinite;
+        display: block;
+        z-index: -1;
+        -webkit-animation: sliderShape 3s linear infinite;
+    }
+
+
+    @keyframes sliderShape {
+
+        0%,
+        100% {
+            border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+            transform: translate3d(0, 0, 0) rotateZ(0.01deg);
+        }
+
+        34% {
+            border-radius: 70% 30% 46% 54% / 30% 29% 71% 70%;
+            transform: translate3d(0, 5px, 0) rotateZ(0.01deg);
+        }
+
+        50% {
+            transform: translate3d(0, 0, 0) rotateZ(0.01deg);
+        }
+
+        67% {
+            border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
+            transform: translate3d(0, -3px, 0) rotateZ(0.01deg);
+        }
+    }
+
+    .card {
+        box-sizing: border-box;
+        width: 400px;
+        height: 254px;
+        background: rgba(0, 251, 255, 0.732);
+        border: 3px solid rgb(255, 128, 0);
+        box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+        backdrop-filter: blur(6px);
+        border-radius: 17px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.5s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        user-select: none;
+        font-weight: bolder;
+        color: black;
+    }
+
+    .card:hover {
+        border: 1px solid black;
+        transform: scale(1.05);
+    }
+
+    .card:active {
+        transform: scale(0.95) rotateZ(1.7deg);
+    }
+</style>
+
+<body>
+    <h1 style="color:rgb(255, 255, 255); text-align: center;margin-top: 50px;">Choose a mode of Detection</h1>
+    <div class="slider-thumb"></div>
+    <div class="card" style="margin-left: 300px; margin-top: 200px;" onclick="location.href='/livedetect'">
+        <h2 style="font-family:Georgia, 'Times New Roman', Times, serif;">From Live Surveillance</h2>
+    </div>
+    <div class="card" style="margin-left: 830px; margin-top: -255px;" onclick="location.href='/viddetect'">
+        <h2 style="font-family:Georgia, 'Times New Roman', Times, serif;">From Recorded Video</h2>
+    </div>
+</body>
+
+</html>

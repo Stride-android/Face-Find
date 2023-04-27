@@ -1,0 +1,158 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Face Recognition</title>
+    <style>
+        body {
+            background-color: #201521;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        .card {
+            background-color: #852ada;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 246, 255, 0.5);
+            width: 500px;
+            height: 270px;
+            margin-top: 150px;
+            margin-right: 100px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #FFFFFF;
+            margin-top: 0;
+        }
+
+        form {
+            margin-top: 30px;
+        }
+
+        .input-card {
+            background-color: #F0F0F0;
+            padding: 10px;
+            border-radius: 20px;
+            margin-top: 10px;
+        }
+
+        input[type="file"] {
+            margin: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #1E90FF;
+            color: #FFFFFF;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #1874CD;
+        }
+
+        .video-text {
+
+            color: #FFFFFF;
+            font-weight: bold;
+            font-size: 25px;
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        /* Add a container for the frame to adjust its size and position */
+
+
+
+        #frame {
+            border-radius: 25px;
+            border: 2px solid #73AD21;
+            background-color: #73AD21;
+            height: 200px;
+            width: 400px;
+            margin-left: 100px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <h2 style="text-align: center; color: #F0F0F0;">Live Detect</h2>
+    <div align="center">
+        <div class="card" style="display: inline-block;">
+            <h1>Face Recognition</h1>
+            <form action="/uploadlive" method="post" enctype="multipart/form-data">
+                <div class="input-card">
+                    <h3>Upload Images</h3>
+                    <input type="file" name="images[]" multiple>
+                </div>
+                <input type="submit" value="Upload">
+            </form>
+        </div>
+        <div style="display: inline-block;">
+            <div style="color: #b2d8d8;margin-bottom: 50px; margin-left: 90px">
+                <h3>Processed Video will be Displayed below</h3>
+            </div>
+            <div class="frame-container">
+                <img id="frame" src="">
+            </div>
+        </div>
+
+        <div class="video-text" id="message">
+            <h2>Processing video...</h2>
+        </div>
+        <button onclick="location.href='/stop_video'"
+            style="border-radius: 5px; height: 40px; width: 60px; background-color:#1874CD; font-weight: bold;color: white;">Stop
+        </button>
+
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Poll the first Flask route every 0.1 seconds
+        setInterval(function () {
+            $.ajax({
+                url: '/polllive',
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    // Update the HTML with the response data
+                    $('#message').text(response.message);
+                },
+                error: function (error) {
+                    console.error('Error polling server:', error);
+                }
+            });
+        }, 100); // 0.1 seconds in milliseconds
+
+        // Poll the second Flask route every 0.1 seconds
+        setInterval(function () {
+            $.ajax({
+                url: '/poll2live',
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    // Update the HTML with the received frame data
+                    $('#frame').attr('src', 'data:image/jpeg;base64,' + response.frame);
+                },
+                error: function (error) {
+                    console.error('Error polling server:', error);
+                }
+            });
+        }, 100); // 0.1 seconds in milliseconds
+    </script>
+
+</body>
+
+</html>
